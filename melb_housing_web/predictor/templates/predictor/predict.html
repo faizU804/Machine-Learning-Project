@@ -1,0 +1,251 @@
+{% extends 'predictor/base.html' %}
+
+{% block title %}Predict House Price - Melbourne Housing Predictor{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Form section styling */
+    .form-section {
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+    
+    /* Form group animations */
+    .form-group {
+        transition: all 0.3s ease;
+    }
+    
+    .form-group:hover {
+        transform: translateY(-3px);
+    }
+    
+    /* Form header animation */
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+    
+    .form-header {
+        background: linear-gradient(-45deg, #3498db, #2980b9, #2c3e50, #1abc9c);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+        color: white;
+        padding: 30px;
+        text-align: center;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center" data-aos="fade-up">
+                <h1 class="display-4 fw-bold">Predict House Price</h1>
+                <p class="lead">Fill out the form below to get an accurate prediction</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Form Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="form-section mb-5" data-aos="fade-up">
+                    <div class="form-header mb-4">
+                        <h2 class="mb-2"><i class="fas fa-home me-2"></i>Property Details</h2>
+                        <p class="mb-0">Fill in the information below to get an accurate price prediction</p>
+                    </div>
+                    
+                    <div class="p-4 p-md-5">
+                        <form method="post" action="{% url 'predict' %}">
+                            {% csrf_token %}
+                            
+                            <div class="row">
+                                <!-- General Information -->
+                                <div class="col-12 mb-4">
+                                    <h4 class="mb-3 text-primary">General Information</h4>
+                                    <hr>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label for="{{ form.suburb.id_for_label }}" class="form-label">Suburb</label>
+                                    {{ form.suburb }}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label for="{{ form.region.id_for_label }}" class="form-label">Region</label>
+                                    {{ form.region }}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label for="{{ form.property_type.id_for_label }}" class="form-label">Property Type</label>
+                                    {{ form.property_type }}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label for="{{ form.method.id_for_label }}" class="form-label">Method of Sale</label>
+                                    {{ form.method }}
+                                </div>
+                                
+                                <!-- Property Features -->
+                                <div class="col-12 mb-4 mt-2">
+                                    <h4 class="mb-3 text-primary">Property Features</h4>
+                                    <hr>
+                                </div>
+                                
+                                <div class="col-md-3 mb-3 form-group">
+                                    <label for="{{ form.rooms.id_for_label }}" class="form-label">Rooms</label>
+                                    {{ form.rooms }}
+                                </div>
+                                
+                                <div class="col-md-3 mb-3 form-group">
+                                    <label for="{{ form.bedrooms.id_for_label }}" class="form-label">Bedrooms</label>
+                                    {{ form.bedrooms }}
+                                </div>
+                                
+                                <div class="col-md-3 mb-3 form-group">
+                                    <label for="{{ form.bathrooms.id_for_label }}" class="form-label">Bathrooms</label>
+                                    {{ form.bathrooms }}
+                                </div>
+                                
+                                <div class="col-md-3 mb-3 form-group">
+                                    <label for="{{ form.cars.id_for_label }}" class="form-label">Car Spaces</label>
+                                    {{ form.cars }}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label for="{{ form.landsize.id_for_label }}" class="form-label">Land Size (sqm)</label>
+                                    {{ form.landsize }}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label for="{{ form.council_area.id_for_label }}" class="form-label">Council Area</label>
+                                    {{ form.council_area }}
+                                </div>
+                                
+                                <!-- Location Details -->
+                                <div class="col-12 mb-4 mt-2">
+                                    <h4 class="mb-3 text-primary">Location Details</h4>
+                                    <hr>
+                                </div>
+                                
+                                <div class="col-md-4 mb-3 form-group">
+                                    <label for="{{ form.distance.id_for_label }}" class="form-label">Distance from CBD (km)</label>
+                                    {{ form.distance }}
+                                </div>
+                                
+                                <div class="col-md-4 mb-3 form-group">
+                                    <label for="{{ form.latitude.id_for_label }}" class="form-label">Latitude</label>
+                                    {{ form.latitude }}
+                                </div>
+                                
+                                <div class="col-md-4 mb-3 form-group">
+                                    <label for="{{ form.longitude.id_for_label }}" class="form-label">Longitude</label>
+                                    {{ form.longitude }}
+                                </div>
+                                
+                                <div class="col-md-4 mb-3 form-group">
+                                    <label for="{{ form.postcode.id_for_label }}" class="form-label">Postcode</label>
+                                    {{ form.postcode }}
+                                </div>
+                                
+                                <div class="col-md-4 mb-3 form-group">
+                                    <label for="{{ form.property_count.id_for_label }}" class="form-label">Property Count in Area</label>
+                                    {{ form.property_count }}
+                                </div>
+                                
+                                <!-- Sale Details -->
+                                <div class="col-12 mb-4 mt-2">
+                                    <h4 class="mb-3 text-primary">Sale Details</h4>
+                                    <hr>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label for="{{ form.seller.id_for_label }}" class="form-label">Seller/Agent</label>
+                                    {{ form.seller }}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label for="{{ form.date.id_for_label }}" class="form-label">Date</label>
+                                    {{ form.date }}
+                                </div>
+                                
+                                <!-- Submit Button -->
+                                <div class="col-12 mt-4 text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5">
+                                        <i class="fas fa-calculator me-2"></i>Predict Price
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Extra Notes Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10" data-aos="fade-up">
+                <div class="card border-0 shadow p-4">
+                    <h4 class="mb-3"><i class="fas fa-info-circle me-2 text-primary"></i>Tips for Accurate Predictions</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Use accurate property measurements</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Check the property's exact location</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Include all rooms in the count</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Be specific about the council area</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Use the correct property type</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Measure land size accurately</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Enhance the form experience with animations
+    document.addEventListener('DOMContentLoaded', function() {
+        const formGroups = document.querySelectorAll('.form-group');
+        
+        formGroups.forEach(group => {
+            group.addEventListener('focus', function() {
+                this.classList.add('focused');
+            }, true);
+            
+            group.addEventListener('blur', function() {
+                this.classList.remove('focused');
+            }, true);
+        });
+    });
+</script>
+{% endblock %} 

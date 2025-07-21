@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Error - Melbourne Housing Predictor{% endblock %}
+
+{% block extra_css %}
+<style>
+    .error-container {
+        padding: 60px 0;
+        text-align: center;
+    }
+    
+    .error-icon {
+        font-size: 5rem;
+        color: #e74c3c;
+        margin-bottom: 20px;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+    
+    .error-card {
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .error-message {
+        font-size: 1.2rem;
+        color: #555;
+        margin-bottom: 30px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="error-container">
+            <div class="error-card" data-aos="fade-up">
+                <div class="error-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h1 class="display-4 mb-4">Oops! Something went wrong</h1>
+                <div class="error-message">
+                    {{ error_message }}
+                </div>
+                <div class="mt-4">
+                    <a href="{{ url_for('predict') }}" class="btn btn-primary me-3">
+                        <i class="fas fa-redo me-2"></i>Try Again
+                    </a>
+                    <a href="{{ url_for('home') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-home me-2"></i>Go Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Suggestion Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center" data-aos="fade-up" data-aos-delay="100">
+                <h3 class="mb-4">Common Issues:</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 p-4 border-0 shadow-sm">
+                            <h5><i class="fas fa-database text-primary me-2"></i>Model Loading</h5>
+                            <p>Make sure the machine learning model has been trained and the model file exists.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 p-4 border-0 shadow-sm">
+                            <h5><i class="fas fa-exclamation-circle text-primary me-2"></i>Input Format</h5>
+                            <p>Check that your input data is in the correct format and within acceptable ranges.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+
+{% block title %}Predict House Price - Melbourne Housing Predictor{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Form section styling */
+    .form-section {
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+    
+    /* Form group animations */
+    .form-group {
+        transition: all 0.3s ease;
+    }
+    
+    .form-group:hover {
+        transform: translateY(-3px);
+    }
+    
+    /* Form header animation */
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+    
+    .form-header {
+        background: linear-gradient(-45deg, #3498db, #2980b9, #2c3e50, #1abc9c);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+        color: white;
+        padding: 30px;
+        text-align: center;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center" data-aos="fade-up">
+                <h1 class="display-4 fw-bold">Predict House Price</h1>
+                <p class="lead">Fill out the form below to get an accurate prediction</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Form Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="form-section mb-5" data-aos="fade-up">
+                    <div class="form-header mb-4">
+                        <h2 class="mb-2"><i class="fas fa-home me-2"></i>Property Details</h2>
+                        <p class="mb-0">Fill in the information below to get an accurate price prediction</p>
+                        <button type="button" id="fillSampleData" class="btn btn-light mt-3">
+                            <i class="fas fa-magic me-2"></i>Fill with Sample Data
+                        </button>
+                    </div>
+                    
+                    <div class="p-4 p-md-5">
+                        <form method="post" action="{{ url_for('predict') }}">
+                            <div class="row">
+                                <!-- Only show selected features -->
+                                <div class="col-md-3 mb-3 form-group">
+                                    <label for="rooms" class="form-label">Rooms</label>
+                                    <input type="number" class="form-control" id="rooms" name="rooms" min="1" max="10" placeholder="e.g., 3" required>
+                                </div>
+                                <div class="col-md-3 mb-3 form-group">
+                                    <label for="bedrooms" class="form-label">Bedrooms</label>
+                                    <input type="number" class="form-control" id="bedrooms" name="bedrooms" min="1" max="10" placeholder="e.g., 3" required>
+                                </div>
+                                <div class="col-md-3 mb-3 form-group">
+                                    <label for="bathrooms" class="form-label">Bathrooms</label>
+                                    <input type="number" class="form-control" id="bathrooms" name="bathrooms" min="1" max="10" placeholder="e.g., 2" required>
+                                </div>
+                                <div class="col-md-3 mb-3 form-group">
+                                    <label for="landsize" class="form-label">Land Size (sqm)</label>
+                                    <input type="number" class="form-control" id="landsize" name="landsize" min="0" step="0.1" placeholder="e.g., 290" required>
+                                </div>
+                                <div class="col-md-4 mb-3 form-group">
+                                    <label for="distance" class="form-label">Distance from CBD (km)</label>
+                                    <input type="number" class="form-control" id="distance" name="distance" min="0" step="0.1" placeholder="e.g., 10.5" required>
+                                </div>
+                                <div class="col-md-4 mb-3 form-group">
+                                    <label for="latitude" class="form-label">Latitude</label>
+                                    <input type="number" class="form-control" id="latitude" name="latitude" step="0.0001" placeholder="e.g., -37.8136" required>
+                                </div>
+                                <div class="col-md-4 mb-3 form-group">
+                                    <label for="longitude" class="form-label">Longitude</label>
+                                    <input type="number" class="form-control" id="longitude" name="longitude" step="0.0001" placeholder="e.g., 144.9631" required>
+                                </div>
+                                <div class="col-md-4 mb-3 form-group">
+                                    <label for="postcode" class="form-label">Postcode</label>
+                                    <input type="number" class="form-control" id="postcode" name="postcode" min="1000" max="9999" placeholder="e.g., 3121" required>
+                                </div>
+                                <div class="col-md-4 mb-3 form-group">
+                                    <label for="property_count" class="form-label">Property Count in Area</label>
+                                    <input type="number" class="form-control" id="property_count" name="property_count" min="1" placeholder="e.g., 4019" required>
+                                </div>
+                                <div class="col-md-4 mb-3 form-group">
+                                    <label for="property_type" class="form-label">Property Type</label>
+                                    <select class="form-select" id="property_type" name="property_type" required>
+                                        <option value="" selected disabled>Select property type</option>
+                                        <option value="h">House</option>
+                                        <option value="u">Unit/Apartment</option>
+                                        <option value="t">Townhouse</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label for="seller" class="form-label">Seller/Agent</label>
+                                    <input type="text" class="form-control" id="seller" name="seller" placeholder="e.g., Hall" required>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label for="region" class="form-label">Region</label>
+                                    <select class="form-select" id="region" name="region" required>
+                                        <option value="" selected disabled>Select region</option>
+                                        <option value="Eastern Metropolitan">Eastern Metropolitan</option>
+                                        <option value="Southern Metropolitan">Southern Metropolitan</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 mt-4 text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5">
+                                        <i class="fas fa-calculator me-2"></i>Predict Price
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Extra Notes Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10" data-aos="fade-up">
+                <div class="card border-0 shadow p-4">
+                    <h4 class="mb-3"><i class="fas fa-info-circle me-2 text-primary"></i>Tips for Accurate Predictions</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Use accurate property measurements</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Check the property's exact location</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Include all rooms in the count</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Be specific about the council area</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Use the correct property type</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Measure land size accurately</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Enhance the form experience with animations
+    document.addEventListener('DOMContentLoaded', function() {
+        const formGroups = document.querySelectorAll('.form-group');
+        
+        formGroups.forEach(group => {
+            group.addEventListener('focus', function() {
+                this.classList.add('focused');
+            }, true);
+            
+            group.addEventListener('blur', function() {
+                this.classList.remove('focused');
+            }, true);
+        });
+        
+        // Fill form with sample data
+        document.getElementById('fillSampleData').addEventListener('click', function() {
+            document.getElementById('rooms').value = '3';
+            document.getElementById('bedrooms').value = '3';
+            document.getElementById('bathrooms').value = '1';
+            document.getElementById('landsize').value = '202.0';
+            document.getElementById('distance').value = '2.5';
+            document.getElementById('latitude').value = '-37.8136';
+            document.getElementById('longitude').value = '144.9631';
+            document.getElementById('postcode').value = '3121';
+            document.getElementById('property_count').value = '4019';
+            document.getElementById('property_type').value = 'u';
+            document.getElementById('seller').value = 'Hall';
+            document.getElementById('region').value = 'Eastern Metropolitan';
+        });
+    });
+</script>
+{% endblock %} 

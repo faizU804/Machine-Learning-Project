@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+
+{% block title %}About - Melbourne Housing Predictor{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center" data-aos="fade-up">
+                <h1 class="display-4 fw-bold">About The Project</h1>
+                <p class="lead">Learn about our machine learning approach to property price prediction</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Project Overview -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+                <h2 class="mb-4">Melbourne Housing Price Predictor</h2>
+                <p class="lead mb-4">This project uses machine learning algorithms to predict house prices in Melbourne based on various property features and location data.</p>
+                <p>Our model is trained on data from thousands of Melbourne properties and can predict prices with approximately 80% accuracy. It takes into account factors like location, property size, number of rooms, and many other features.</p>
+                <div class="mt-4">
+                    <a href="{{ url_for('predict') }}" class="btn btn-primary">Try Our Predictor</a>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <img src="https://images.unsplash.com/photo-1531219572328-a0171b4448a3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt="Data analysis" class="img-fluid rounded-4 shadow-lg">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ML Models Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center mb-5" data-aos="fade-up">
+                <h2 class="mb-4">Our Machine Learning Models</h2>
+                <p class="lead">We compared several models to find the best one for predicting Melbourne housing prices</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h4 class="card-title mb-3"><i class="fas fa-chart-line text-primary me-2"></i>Linear Regression</h4>
+                        <p class="card-text">A simple baseline model that establishes linear relationships between features and house prices.</p>
+                        <ul class="list-unstyled mt-4">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Simple and interpretable</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Establishes baseline accuracy</li>
+                            <li class="mb-2"><i class="fas fa-times-circle text-danger me-2"></i> Limited with non-linear relationships</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h4 class="card-title mb-3"><i class="fas fa-tree text-primary me-2"></i>Random Forest</h4>
+                        <p class="card-text">An ensemble model that combines multiple decision trees to make predictions with high accuracy.</p>
+                        <ul class="list-unstyled mt-4">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> High accuracy (80%+)</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Handles non-linear relationships</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Provides feature importance</li>
+                        </ul>
+                        <div class="mt-4">
+                            <span class="badge bg-primary px-3 py-2">Best Performer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h4 class="card-title mb-3"><i class="fas fa-arrows-alt text-primary me-2"></i>Gradient Boosting</h4>
+                        <p class="card-text">A sequential ensemble technique that builds trees one at a time, each fixing errors of the previous ones.</p>
+                        <ul class="list-unstyled mt-4">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> High accuracy</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Reduces bias in predictions</li>
+                            <li class="mb-2"><i class="fas fa-times-circle text-danger me-2"></i> More complex to tune</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center mb-5" data-aos="fade-up">
+                <h2 class="mb-4">Key Features We Analyze</h2>
+                <p class="lead">Our model considers numerous property attributes to make accurate predictions</p>
+            </div>
+        </div>
+        
+        <div class="row" data-aos="fade-up">
+            <div class="col-md-4 mb-4">
+                <div class="d-flex">
+                    <div class="flex-shrink-0">
+                        <div class="feature-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h4>Location Data</h4>
+                        <p>Suburb, distance from CBD, region, and council area significantly impact property values.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="d-flex">
+                    <div class="flex-shrink-0">
+                        <div class="feature-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h4>Property Attributes</h4>
+                        <p>Number of rooms, bathrooms, bedrooms, car spaces, and property type.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="d-flex">
+                    <div class="flex-shrink-0">
+                        <div class="feature-icon">
+                            <i class="fas fa-ruler-combined"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h4>Size Metrics</h4>
+                        <p>Land size and other dimensional attributes help determine property value.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-3" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-md-4 mb-4">
+                <div class="d-flex">
+                    <div class="flex-shrink-0">
+                        <div class="feature-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h4>Sale Attributes</h4>
+                        <p>Method of sale, seller/agent information, and date of transaction.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="d-flex">
+                    <div class="flex-shrink-0">
+                        <div class="feature-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h4>Neighborhood Data</h4>
+                        <p>Property count in the area and other neighborhood characteristics.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="d-flex">
+                    <div class="flex-shrink-0">
+                        <div class="feature-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h4>Geospatial Features</h4>
+                        <p>Precise latitude and longitude coordinates for exact location analysis.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Technical Process -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <h2 class="text-center mb-5">Our Technical Process</h2>
+                
+                <div class="timeline">
+                    <div class="card mb-4 border-0 shadow-sm" data-aos="fade-up">
+                        <div class="card-body p-4">
+                            <h4 class="mb-3"><span class="badge bg-primary me-2">1</span> Data Collection & Cleaning</h4>
+                            <p>We collected data on over 13,500 Melbourne properties and performed thorough data cleaning, handling missing values and removing outliers.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4 border-0 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+                        <div class="card-body p-4">
+                            <h4 class="mb-3"><span class="badge bg-primary me-2">2</span> Feature Engineering</h4>
+                            <p>We processed categorical variables using one-hot encoding and extracted meaningful features from the raw data.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4 border-0 shadow-sm" data-aos="fade-up" data-aos-delay="200">
+                        <div class="card-body p-4">
+                            <h4 class="mb-3"><span class="badge bg-primary me-2">3</span> Model Training & Selection</h4>
+                            <p>We trained and compared multiple models including Linear Regression, Random Forest, and Gradient Boosting, selecting the best performer.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4 border-0 shadow-sm" data-aos="fade-up" data-aos-delay="300">
+                        <div class="card-body p-4">
+                            <h4 class="mb-3"><span class="badge bg-primary me-2">4</span> Evaluation & Optimization</h4>
+                            <p>Models were evaluated using metrics like RMSE and R² score, with hyperparameter tuning performed to optimize performance.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card border-0 shadow-sm" data-aos="fade-up" data-aos-delay="400">
+                        <div class="card-body p-4">
+                            <h4 class="mb-3"><span class="badge bg-primary me-2">5</span> Deployment</h4>
+                            <p>The best performing model was saved and deployed to this web application, allowing users to make real-time predictions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <h3 class="mb-4">Ready to try our predictor?</h3>
+                <p class="lead mb-4">See how our machine learning model can accurately predict Melbourne property prices.</p>
+                <a href="{{ url_for('predict') }}" class="btn btn-primary btn-lg px-5">
+                    <i class="fas fa-calculator me-2"></i>Try Our Predictor
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

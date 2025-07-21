@@ -1,0 +1,123 @@
+{% extends 'predictor/base.html' %}
+
+{% block title %}Melbourne Housing Price Predictor{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="animated-bg">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="container hero-content">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h1 class="display-4 fw-bold mb-4">Predict Melbourne House Prices with AI</h1>
+                <p class="lead mb-4">Our advanced machine learning model accurately predicts property prices in Melbourne based on location, size, and features.</p>
+                <a href="{% url 'predict' %}" class="btn btn-light btn-lg mb-3">
+                    <i class="fas fa-calculator me-2"></i>Get a Prediction
+                </a>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
+                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1073&q=80" alt="Melbourne Housing" class="img-fluid rounded-4 shadow-lg">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold">How It Works</h2>
+            <p class="lead text-muted">Our prediction model uses advanced machine learning techniques</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 text-center p-4">
+                    <div class="mx-auto">
+                        <div class="feature-icon mx-auto">
+                            <i class="fas fa-home"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Enter Property Details</h4>
+                        <p class="card-text">Provide information about the property such as location, number of rooms, and other features.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 text-center p-4">
+                    <div class="mx-auto">
+                        <div class="feature-icon mx-auto">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">AI Processing</h4>
+                        <p class="card-text">Our machine learning model analyzes the data using patterns learned from thousands of Melbourne properties.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card h-100 text-center p-4">
+                    <div class="mx-auto">
+                        <div class="feature-icon mx-auto">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Get Accurate Prediction</h4>
+                        <p class="card-text">Receive a precise price prediction based on current market trends and comparable properties.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <h2 class="display-4 fw-bold text-primary">13,500+</h2>
+                <p class="lead">Properties Analyzed</p>
+            </div>
+            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <h2 class="display-4 fw-bold text-primary">80%</h2>
+                <p class="lead">Prediction Accuracy</p>
+            </div>
+            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <h2 class="display-4 fw-bold text-primary">3</h2>
+                <p class="lead">Machine Learning Models</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card p-5 border-0 shadow-lg" data-aos="zoom-in">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h3 class="mb-3">Ready to Predict Your Property's Value?</h3>
+                            <p class="mb-md-0">Use our advanced AI tool to get an accurate estimate of Melbourne property prices.</p>
+                        </div>
+                        <div class="col-md-4 text-md-end">
+                            <a href="{% url 'predict' %}" class="btn btn-primary btn-lg">Start Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

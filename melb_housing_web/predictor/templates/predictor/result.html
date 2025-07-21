@@ -1,0 +1,352 @@
+{% extends 'predictor/base.html' %}
+
+{% block title %}Prediction Result - Melbourne Housing Predictor{% endblock %}
+
+{% block extra_css %}
+<style>
+    .result-card {
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        padding: 40px;
+        border-radius: 15px;
+        color: white;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        transition: all 0.4s ease;
+    }
+    
+    .result-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+    
+    .price-display {
+        font-size: 3.5rem;
+        font-weight: 700;
+        background: linear-gradient(90deg, #fff, #f8f9fa, #fff);
+        background-size: 200% auto;
+        color: #fff;
+        background-clip: text;
+        text-fill-color: transparent;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 3s linear infinite;
+    }
+    
+    @keyframes shine {
+        to {
+            background-position: 200% center;
+        }
+    }
+    
+    .property-summary {
+        border-left: 4px solid rgba(255, 255, 255, 0.2);
+        padding-left: 20px;
+    }
+    
+    .summary-item {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .summary-item i {
+        margin-right: 10px;
+        font-size: 18px;
+        width: 25px;
+        text-align: center;
+    }
+    
+    .similar-properties {
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .property-badge {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        border-radius: 20px;
+        padding: 5px 15px;
+        font-size: 0.9rem;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+    
+    .feature-highlight {
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .feature-highlight:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: scale(1.02);
+    }
+    
+    /* Confetti animation */
+    .confetti-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 0;
+    }
+    
+    .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: #f0f;
+        opacity: 0.7;
+        animation: fall 5s linear infinite;
+    }
+    
+    @keyframes fall {
+        0% {
+            transform: translateY(-100px) rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(1000px) rotate(360deg);
+            opacity: 0;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Confetti animation for celebration -->
+<div class="confetti-container" id="confetti-container"></div>
+
+<!-- Result Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="result-card mb-5" data-aos="zoom-in">
+                    <div class="row">
+                        <div class="col-lg-7 mb-4 mb-lg-0">
+                            <div class="mb-4">
+                                <h2 class="h4 mb-3">Estimated Property Price</h2>
+                                <div class="price-display mb-2">{{ predicted_price }}</div>
+                                <p class="lead">Based on your property details, our AI model predicts this market value.</p>
+                            </div>
+                            
+                            <div class="feature-highlight">
+                                <h5><i class="fas fa-chart-line me-2"></i>Prediction Confidence</h5>
+                                <p class="mb-0">Our model has an accuracy of approximately 80%, trained on over 13,000 Melbourne properties.</p>
+                            </div>
+                            
+                            <div class="d-flex flex-wrap mt-4">
+                                <div class="property-badge">
+                                    <i class="fas fa-home me-1"></i>{{ form_data.property_type|upper }}
+                                </div>
+                                <div class="property-badge">
+                                    <i class="fas fa-bed me-1"></i>{{ form_data.rooms }} Rooms
+                                </div>
+                                <div class="property-badge">
+                                    <i class="fas fa-bath me-1"></i>{{ form_data.bathrooms }} Bathrooms
+                                </div>
+                                <div class="property-badge">
+                                    <i class="fas fa-car me-1"></i>{{ form_data.cars }} Car Spaces
+                                </div>
+                                <div class="property-badge">
+                                    <i class="fas fa-ruler-combined me-1"></i>{{ form_data.landsize }} sqm
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-5">
+                            <div class="property-summary">
+                                <h4 class="mb-3">Property Details</h4>
+                                
+                                <div class="summary-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <div>
+                                        <strong>Location:</strong> {{ form_data.suburb }}, {{ form_data.region }}
+                                    </div>
+                                </div>
+                                
+                                <div class="summary-item">
+                                    <i class="fas fa-route"></i>
+                                    <div>
+                                        <strong>Distance to CBD:</strong> {{ form_data.distance }} km
+                                    </div>
+                                </div>
+                                
+                                <div class="summary-item">
+                                    <i class="fas fa-building"></i>
+                                    <div>
+                                        <strong>Council Area:</strong> {{ form_data.council_area }}
+                                    </div>
+                                </div>
+                                
+                                <div class="summary-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <div>
+                                        <strong>Date:</strong> {{ form_data.date|date:"F j, Y" }}
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <a href="{% url 'predict' %}" class="btn btn-light">
+                                        <i class="fas fa-redo me-2"></i>New Prediction
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Information Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <h3 class="mb-4 text-center" data-aos="fade-up">What Affects Property Prices?</h3>
+                
+                <div class="row g-4">
+                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="feature-icon mx-auto mb-3">
+                                    <i class="fas fa-map-marked-alt"></i>
+                                </div>
+                                <h4 class="h5 mb-3 text-center">Location</h4>
+                                <p class="card-text">The suburb, proximity to CBD, schools, and public transport heavily impact property values.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="feature-icon mx-auto mb-3">
+                                    <i class="fas fa-ruler-combined"></i>
+                                </div>
+                                <h4 class="h5 mb-3 text-center">Size & Features</h4>
+                                <p class="card-text">Number of rooms, bathrooms, land size, and other property features significantly affect value.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="feature-icon mx-auto mb-3">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <h4 class="h5 mb-3 text-center">Market Trends</h4>
+                                <p class="card-text">Market conditions, interest rates, and economic factors also play a role in property pricing.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <h3 class="mb-4">Want to try another prediction?</h3>
+                <a href="{% url 'predict' %}" class="btn btn-primary btn-lg px-5">
+                    <i class="fas fa-home me-2"></i>New Prediction
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Create confetti effect
+    document.addEventListener('DOMContentLoaded', function() {
+        const confettiContainer = document.getElementById('confetti-container');
+        const colors = ['#3498db', '#e74c3c', '#f1c40f', '#2ecc71', '#9b59b6', '#1abc9c'];
+        
+        // Create 50 confetti pieces
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            
+            // Random properties
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const size = Math.random() * 10 + 5;
+            const positionLeft = Math.random() * 100;
+            const delay = Math.random() * 3;
+            const duration = Math.random() * 5 + 5;
+            
+            // Apply styles
+            confetti.style.backgroundColor = color;
+            confetti.style.width = `${size}px`;
+            confetti.style.height = `${size}px`;
+            confetti.style.left = `${positionLeft}%`;
+            confetti.style.animationDelay = `${delay}s`;
+            confetti.style.animationDuration = `${duration}s`;
+            
+            // Add shapes
+            if (i % 3 === 0) {
+                confetti.style.borderRadius = '50%';
+            } else if (i % 3 === 1) {
+                confetti.style.borderRadius = '2px';
+            } else {
+                confetti.style.width = `${size / 2}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.transform = `rotate(${Math.random() * 90}deg)`;
+            }
+            
+            confettiContainer.appendChild(confetti);
+        }
+        
+        // Animate the price counter
+        const priceDisplay = document.querySelector('.price-display');
+        const priceText = priceDisplay.textContent;
+        
+        // Extract numeric part
+        let numericPrice = priceText.replace(/[^0-9.]/g, '');
+        numericPrice = parseFloat(numericPrice);
+        
+        // Animation duration in ms
+        const duration = 2000;
+        const frameRate = 20;
+        const totalFrames = duration / frameRate;
+        
+        let currentFrame = 0;
+        
+        function animateValue() {
+            currentFrame++;
+            const progress = currentFrame / totalFrames;
+            const currentValue = (numericPrice * progress).toFixed(2);
+            
+            // Format with commas and dollar sign
+            const formattedValue = '$' + currentValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            
+            if (currentFrame < totalFrames) {
+                priceDisplay.textContent = formattedValue;
+                setTimeout(animateValue, frameRate);
+            } else {
+                priceDisplay.textContent = priceText;
+            }
+        }
+        
+        // Start animation
+        priceDisplay.textContent = '$0';
+        setTimeout(animateValue, 500);
+    });
+</script>
+{% endblock %} 

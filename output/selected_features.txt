@@ -1,0 +1,12 @@
+Rooms
+Distance
+Postcode
+Bedroom2
+Bathroom
+Landsize
+Lattitude
+Longtitude
+Propertycount
+Type_u
+Regionname_Eastern Metropolitan
+Regionname_Southern Metropolitan
